@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>My Complaints</h2>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Booking ID</th>
+        <th>Message</th>
+        <th>Status</th>
+        <th>Response</th>
+        <th>Submitted At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for complaint in complaints %}
+      <tr>
+        <td>{{ complaint.booking.id }}</td>
+        <td>{{ complaint.message }}</td>
+        <td>{{ complaint.status }}</td>
+        <td>{{ complaint.response|default:"—" }}</td>
+        <td>{{ complaint.created_at }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5">You have not submitted any complaints.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

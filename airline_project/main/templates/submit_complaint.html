@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Submit a Complaint</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="id_booking" class="form-label">Select Booking:</label>
+      {{ form.booking }}
+    </div>
+    <div class="mb-3">
+      <label for="id_message" class="form-label">Describe your issue:</label>
+      {{ form.message }}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Complaint</button>
+  </form>
+{% endblock %}

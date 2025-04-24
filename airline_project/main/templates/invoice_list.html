@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Your Invoices</h2>
+  <ul class="list-group">
+    {% for invoice in invoices %}
+      <li class="list-group-item">
+        <strong>Booking ID:</strong> {{ invoice.booking.id }}<br>
+        <strong>Flight:</strong> {{ invoice.booking.flight.flight_number }}<br>
+        <strong>Total:</strong> ${{ invoice.total_amount }}<br>
+        <strong>Status:</strong> {{ invoice.status }}<br>
+        <strong>Issued Date:</strong> {{ invoice.issued_date }}<br>
+        <strong>Customer:</strong> {{ invoice.booking.customer.first_name }} ({{ invoice.booking.customer.email }})<br>
+        <strong>Phone:</strong> {{ invoice.booking.customer.profile.phone }}<br>
+        <strong>Address:</strong> {{ invoice.booking.customer.profile.address }}
+      </li>
+    {% empty %}
+      <li class="list-group-item">No invoices found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

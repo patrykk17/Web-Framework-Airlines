@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Available Flights</h2>
+  <ul class="list-group">
+    {% for flight in flights %}
+      <li class="list-group-item">
+        <strong>{{ flight.flight_number }}</strong>: {{ flight.origin }} → {{ flight.destination }} | 
+        ${{ flight.price }} on {{ flight.departure_date }} at {{ flight.departure_time }}
+        <a href="{% url 'book_flight' flight.id %}" class="btn btn-sm btn-success float-end">Book</a>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No flights available.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

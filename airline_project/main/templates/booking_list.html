@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Your Bookings</h2>
+  <ul class="list-group">
+    {% for booking in bookings %}
+      <li class="list-group-item">
+        <strong>Flight:</strong> {{ booking.flight.flight_number }} — {{ booking.flight.origin }} to {{ booking.flight.destination }}<br>
+        <strong>Status:</strong> {{ booking.status }}<br>
+        <strong>Booking Date:</strong> {{ booking.booking_date }}<br>
+        <strong>Customer:</strong> {{ booking.customer.first_name }} ({{ booking.customer.email }})<br>
+        <strong>Phone:</strong> {{ booking.customer.profile.phone }}<br>
+        <strong>Address:</strong> {{ booking.customer.profile.address }}
+      </li>
+    {% empty %}
+      <li class="list-group-item">No bookings found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

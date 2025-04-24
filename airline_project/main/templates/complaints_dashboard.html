@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>All Customer Complaints</h2>
+
+  <ul class="list-group">
+    {% for complaint in complaints %}
+      <li class="list-group-item">
+        <!-- Complaint management form -->
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="complaint_id" value="{{ complaint.id }}">
+
+          <!-- Complaint details -->
+          <strong>Customer:</strong> {{ complaint.user.username }}<br>
+          <strong>Booking ID:</strong> {{ complaint.booking.id }}<br>
+          <strong>Flight:</strong> {{ complaint.booking.flight.flight_number }} — 
+          {{ complaint.booking.flight.origin }} to {{ complaint.booking.flight.destination }}<br>
+          <strong>Issue:</strong> {{ complaint.message }}<br>
+
+          <!-- Status update -->
+          <label class="form-label mt-2"><strong>Status:</strong></label>
+          <select name="status" class="form-select mb-2">
+            <option value="Open" {% if complaint.status == "Open" %}selected{% endif %}>Open</option>
+            <option value="In Progress" {% if complaint.status == "In Progress" %}selected{% endif %}>In Progress</option>
+            <option value="Resolved" {% if complaint.status == "Resolved" %}selected{% endif %}>Resolved</option>
+          </select>
+
+          <!-- Response field -->
+          <label class="form-label"><strong>Response:</strong></label>
+          <textarea name="response" class="form-control mb-2" rows="2">{{ complaint.response }}</textarea>
+
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-sm btn-primary">Save</button>
+        </form>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No complaints found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

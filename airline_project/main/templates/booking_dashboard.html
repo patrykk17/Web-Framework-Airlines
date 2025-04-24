@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Booking Manager Dashboard</h2>
+
+<!-- Bookings section -->
+<h3>Bookings</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th><th>Flight</th><th>Customer</th><th>Status</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for booking in bookings %}
+    <tr>
+      <td>{{ booking.id }}</td>
+      <td>{{ booking.flight.flight_number }}</td>
+      <td>{{ booking.customer.username }}</td>
+      <td>
+        <!-- Form to update booking status -->
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="update_booking">
+          <input type="hidden" name="booking_id" value="{{ booking.id }}">
+          <select name="status" class="form-select">
+            <option {% if booking.status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option {% if booking.status == 'Confirmed' %}selected{% endif %}>Confirmed</option>
+            <option {% if booking.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+          </select>
+      </td>
+      <td>
+          <button type="submit" class="btn btn-sm btn-success">Save</button>
+        </form>
+        <!-- Form to delete booking -->
+        <form method="post" style="display:inline;">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="delete_booking">
+          <input type="hidden" name="booking_id" value="{{ booking.id }}">
+          <button type="submit" class="btn btn-sm btn-danger mt-1">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Invoices section -->
+<h3>Invoices</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th><th>Booking</th><th>Status</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for invoice in invoices %}
+    <tr>
+      <td>{{ invoice.id }}</td>
+      <td>{{ invoice.booking.id }}</td>
+      <td>
+        <!-- Form to update invoice status -->
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="update_invoice">
+          <input type="hidden" name="invoice_id" value="{{ invoice.id }}">
+          <select name="status" class="form-select">
+            <option {% if invoice.status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option {% if invoice.status == 'Paid' %}selected{% endif %}>Paid</option>
+            <option {% if invoice.status == 'Overdue' %}selected{% endif %}>Overdue</option>
+          </select>
+      </td>
+      <td>
+          <button type="submit" class="btn btn-sm btn-success">Save</button>
+        </form>
+        <!-- Form to delete invoice -->
+        <form method="post" style="display:inline;">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="delete_invoice">
+          <input type="hidden" name="invoice_id" value="{{ invoice.id }}">
+          <button type="submit" class="btn btn-sm btn-danger mt-1">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
